@@ -25,8 +25,32 @@ app.post('/sumar', (req, res) => {
     return res.status(400).send({ error: 'Faltan Numeros' });
   }
 
-  const resultado = Number(num1) + Number(num2);
+// Resta
 
+app.post('/restar', (req, res) => {
+  const { num1, num2 } = req.body;
+
+  if (!num1 || !num2) {
+    return res.status(400).send({ error: 'Faltan Numeros' });
+  }
+// Multiplicacion
+app.post('/Multiplicacion', (req, res) => {
+  const { num1, num2 } = req.body;
+
+  if (!num1 || !num2) {
+    return res.status(400).send({ error: 'Faltan Numeros' });
+  }
+
+  const resultado = Number(num1) * Number(num2);
+
+// Division
+app.post('/Dividir', (req, res) => {
+  const { num1, num2 } = req.body;
+
+  if (!num1 || !num2) {
+    return res.status(400).send({ error: 'Faltan Numeros' });
+  }  
+    const resultado = Number(num1) / Number(num2);
   res.send({ resultado });
 }); // 👈 aquí se cierra correctamente
 
