@@ -60,44 +60,106 @@ app.post('/dividir', (req, res) => {
 });
 
 
-// AREA TRIANGULO
-app.post('/area-triangulo', (req, res) => {
-  const { base, altura } = req.body;
+const express = require('express');
+const app = express();
+const morgan = require('morgan');
+const cors = require('cors');
 
-  if (base == null || altura == null) {
-    return res.status(400).send({ error: 'Faltan base o altura' });
-  }
+app.set('port', process.env.PORT || 3000);
+app.set('json spaces', 2);
 
-  const resultado = (Number(base) * Number(altura)) / 2;
+app.use(morgan('dev'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(cors());
 
-  res.send({ resultado });
+app.get('/', (req, res) => {
+    res.json({
+        "Title": "API Figuras Geométricas"
+    });
 });
 
-// AREA CUADRADO
-app.post('/area-cuadrado', (req, res) => {
-  const { lado } = req.body;
+/* ============================
+   ENDPOINT ORIGINAL DE SUMA
+============================ */
 
-  if (lado == null) {
-    return res.status(400).send({ error: 'Falta el lado' });
-  }
+app.post('/sumar', (req, res) => {
+    const { num1, num2 } = req.body;
 
-  const resultado = Number(lado) * Number(lado);
+    if (num1 == null || num2 == null) {
+        return res.status(400).json({ error: 'Faltan números para sumar' });
+    }
 
-  res.send({ resultado });
+    const resultado = Number(num1) + Number(num2);
+
+    res.json({ resultado });
 });
 
-// AREA CIRCULO
-app.post('/area-circulo', (req, res) => {
-  const { radio } = req.body;
+/* ============================
+   CUADRADO
+============================ */
 
-  if (radio == null) {
-    return res.status(400).send({ error: 'Falta el radio' });
-  }
+app.post('/cuadrado/area', (req, res) => {
+    const { lado } = req.body;
 
-  const resultado = Math.PI * Math.pow(Number(radio), 2);
+    if (lado == null) {
+        return res.status(400).json({ error: "Falta el lado" });
+    }
 
-  res.send({ resultado });
+    const area = Number(lado) * Number(lado);
+
+    res.json({ figura: "Cuadrado", area });
 });
+
+app.post('/cuadrado/perimetro', (req, res) => {
+    const { lado } = req.body;
+
+    if (lado == null) {
+        return res.status(400).json({ error: "Falta el lado" });
+    }
+
+    const perimetro = 4 * Number(lado);
+
+    res.json({ figura: "Cuadrado", perimetro });
+});
+
+/* ============================
+   TRIANGULO
+============================ */
+
+app.post('/triangulo/area', (req, res) => {
+    const { base, altura } = req.body;
+
+    if (base == null || altura == null) {
+        return res.status(400).json({ error: "Faltan base o altura" });
+    }
+
+    const area = (Number(base) * Number(altura)) / 2;
+
+    res.json({ figura: "Triángulo", area });
+});
+
+app.post('/triangulo/perimetro', (req, res) => {
+    const { lado1, lado2, lado3 } = req.body;
+
+    if (lado1 == null || lado2 == null || lado3 == null) {
+        return res.status(400).json({ error: "Faltan lados" });
+    }
+
+    const perimetro =
+        Number(lado1) +
+        Number(lado2) +
+        Number(lado3);
+
+    res.json({ figura: "Triángulo", perimetro });
+});
+
+/* ============================
+   CIRCULO
+============================ */
+
+app.post('/circulo/area', (req, res) => {
+    const { radio } = req.body;
 
 
 
