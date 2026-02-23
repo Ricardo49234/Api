@@ -59,6 +59,48 @@ app.post('/dividir', (req, res) => {
   res.send({ resultado: Number(num1) / Number(num2) });
 });
 
+
+// AREA TRIANGULO
+app.post('/area-triangulo', (req, res) => {
+  const { base, altura } = req.body;
+
+  if (base == null || altura == null) {
+    return res.status(400).send({ error: 'Faltan base o altura' });
+  }
+
+  const resultado = (Number(base) * Number(altura)) / 2;
+
+  res.send({ resultado });
+});
+
+// AREA CUADRADO
+app.post('/area-cuadrado', (req, res) => {
+  const { lado } = req.body;
+
+  if (lado == null) {
+    return res.status(400).send({ error: 'Falta el lado' });
+  }
+
+  const resultado = Number(lado) * Number(lado);
+
+  res.send({ resultado });
+});
+
+// AREA CIRCULO
+app.post('/area-circulo', (req, res) => {
+  const { radio } = req.body;
+
+  if (radio == null) {
+    return res.status(400).send({ error: 'Falta el radio' });
+  }
+
+  const resultado = Math.PI * Math.pow(Number(radio), 2);
+
+  res.send({ resultado });
+});
+
+
+
 // Inicio del servidor
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el puerto ${PORT}`);
